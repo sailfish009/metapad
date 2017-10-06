@@ -1,0 +1,75 @@
+#Project: metapad
+
+#Compiler: Default GCC compiler
+
+#Compiler Type: MingW 3
+
+#Makefile created by wxDev-C++ 7.2.0.2 on 29-11-09 05:10
+
+RICHEDIT = USE_RICH_EDIT
+
+WXLIBNAME = wxmsw28
+
+CPP       = g++.exe --define $(RICHEDIT)
+
+CC        = gcc.exe --define $(RICHEDIT)
+
+WINDRES   = "windres.exe" --define $(RICHEDIT)
+
+OBJ       = Objects/MingW/metapad.o Objects/MingW/cencode.o Objects/MingW/cdecode.o Objects/MingW/metapad_private.res
+
+LINKOBJ   = "Objects/MingW/metapad.o" Objects/MingW/cencode.o Objects/MingW/cdecode.o Objects/MingW/metapad_private.res
+
+LIBS      = -lcomctl32 -lkernel32 -luser32 -lgdi32 -lcomdlg32 -ladvapi32 -lshell32 -mwindows
+
+INCS      = 
+
+CXXINCS   = 
+
+RCINCS    = 
+
+BIN       = Output/MingW/metapad.exe
+
+#DEFINES   = -D__GNUWIN32__ -D_DEBUG -D_MBCS -DNO_RICH_EDIT -DWIN32 -D_WINDOWS
+
+DEFINES   = -D__GNUWIN32__  -DNDEBUG -D_MBCS -DWIN32 -D_WINDOWS
+
+CXXFLAGS  = $(CXXINCS) $(DEFINES) -W /Od /FD -c  
+
+#CFLAGS    = $(INCS) $(DEFINES) -W /Od /FD -c  
+
+CFLAGS    = $(INCS) $(DEFINES)  -c
+
+GPROF     = gprof.exe
+
+RM        = rm -f
+
+LINK      = g++.exe
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+
+	$(RM) $(LINKOBJ) "$(BIN)"
+
+$(BIN): $(OBJ)
+
+	$(LINK) $(LINKOBJ) -o "$(BIN)" $(LIBS)
+
+Objects/MingW/metapad.o: $(GLOBALDEPS) metapad.c resource.h w32crt.h
+
+	$(CC) -c metapad.c -o Objects/MingW/metapad.o $(CFLAGS)
+
+Objects/MingW/cdecode.o: $(GLOBALDEPS) cdecode.c resource.h w32crt.h
+
+	$(CC) -c cdecode.c -o Objects/MingW/cdecode.o $(CFLAGS)
+
+Objects/MingW/cencode.o: $(GLOBALDEPS) cencode.c resource.h w32crt.h
+
+	$(CC) -c cencode.c -o Objects/MingW/cencode.o $(CFLAGS)
+
+Objects/MingW/metapad_private.res: metapad.rc 
+
+	$(WINDRES) --input-format=rc -o Objects/MingW/metapad_private.res $(RCINCS) metapad.rc -O coff
