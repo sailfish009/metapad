@@ -61,7 +61,7 @@
 #include "cencode.h"
 #include "cdecode.h"
 
-extern atol(const char*);
+//extern atol(const char*);
 extern atoi(const char*);
 
 #pragma intrinsic(memset)
@@ -161,7 +161,7 @@ extern atoi(const char*);
 #define STR_URL _T("http://liquidninja.com/metapad")
 #define STR_REGKEY _T("SOFTWARE\\metapad")
 #define STR_FAV_APPNAME _T("Favourites")
-#define STR_COPYRIGHT _T("© 1999-2011 Alexander Davidson")
+#define STR_COPYRIGHT _T("?1999-2011 Alexander Davidson")
 
 ///// Macros /////
 
@@ -835,7 +835,8 @@ BOOL SaveCurrentFileAs(void)
 	ofn.nMaxCustFilter = 0L;
 	ofn.nFilterIndex = 1L;
 
-	pch = _tcsrchr(szFile, _T('\\'));
+	//pch = _tcsrchr(szFile, _T('\\'));
+	pch = _mbsrchr(szFile, _T('\\'));
 	if (pch == NULL)
 		lstrcpy(szTmp, szFile);
 	else
@@ -1596,7 +1597,8 @@ int FixShortFilename(TCHAR *szSrc, TCHAR *szDest)
 			}
 		}
 	
-		_tcsncpy(sDir, szDest, nDestPos);		
+		//_tcsncpy(sDir, szDest, nDestPos);		
+		_mbsnbcpy(sDir, szDest, nDestPos);		
 		sDir[nDestPos] = '*';
 		sDir[nDestPos + 1] = '\0';
 
@@ -1639,7 +1641,8 @@ void ExpandFilename(LPTSTR szBuffer)
 	if (hSearch != INVALID_HANDLE_VALUE) {
 		int result;
 		LPCTSTR pdest;
-		pdest = _tcsrchr(szBuffer, _T('\\'));
+		//pdest = _tcsrchr(szBuffer, _T('\\'));
+		pdest = _mbsrchr(szBuffer, _T('\\'));
 		if (pdest) {
 			result = pdest - szBuffer + 1;
 			lstrcpyn(szDir, szBuffer, result);
@@ -3304,7 +3307,8 @@ void LoadFile(LPTSTR szFilename, BOOL bCreate, BOOL bMRU)
 				TCHAR buffer[MAXFN + 40];
 
 				if (i == 0) {
-					if (_tcschr(szFilename, _T('.')) == NULL) {
+					//if (_tcschr(szFilename, _T('.')) == NULL) {
+					if (_mbschr(szFilename, _T('.')) == NULL) {
 						lstrcat(szFilename, _T(".txt"));
 						continue;
 					}
@@ -7606,7 +7610,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 #ifdef BUILD_METAPAD_UNICODE
 	szCmdLine = GetCommandLine();
-	szCmdLine = _tcschr(szCmdLine, _T(' ')) + 1;
+	//szCmdLine = _tcschr(szCmdLine, _T(' ')) + 1;
+	szCmdLine = _mbschr(szCmdLine, _T(' ')) + 1;
 #else
 	szCmdLine = lpCmdLine;
 #endif
@@ -7615,7 +7620,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		TCHAR* pch;
 		GetModuleFileName(hinstThis, szMetapadIni, MAXFN);
 			
-		pch = _tcsrchr(szMetapadIni, _T('\\'));
+		//pch = _tcsrchr(szMetapadIni, _T('\\'));
+		pch = _mbsrchr(szMetapadIni, _T('\\'));
 		++pch;
 		*pch = '\0';
 		lstrcat(szMetapadIni, "metapad.ini");
@@ -7889,7 +7895,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			TCHAR* pch;
 			GetModuleFileName(hInstance, szFav, MAXFN);
 			
-			pch = _tcsrchr(szFav, _T('\\'));
+			//pch = _tcsrchr(szFav, _T('\\'));
+			pch = _mbsrchr(szFav, _T('\\'));
 			++pch;
 			*pch = '\0';
 		}
@@ -7962,7 +7969,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		else {
 			//ERROROUT(szCmdLine);
 			if (szCmdLine[0] == '\"') {
-				lstrcpyn(szFile, szCmdLine + 1, _tcschr(szCmdLine+1, _T('\"')) - szCmdLine);
+				char *pdest = _mbschr(szCmdLine+1, _T('\"'));
+				//lstrcpyn(szFile, szCmdLine + 1, _tcschr(szCmdLine+1, _T('\"')) - szCmdLine);
+				lstrcpyn(szFile, szCmdLine + 1, pdest - szCmdLine);
 			}
 			else {
 				lstrcpyn(szFile, szCmdLine, nCmdLen + 1);
