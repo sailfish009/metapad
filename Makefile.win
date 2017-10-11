@@ -2,7 +2,7 @@
 
 #Compiler: Default GCC compiler
 
-#Compiler Type: MingW 3
+#Compiler Type: MingW32
 
 #Makefile created by wxDev-C++ 7.2.0.2 on 29-11-09 05:10
 
@@ -16,27 +16,27 @@ CC        = gcc.exe --define $(RICHEDIT)
 
 WINDRES   = "windres.exe" --define $(RICHEDIT)
 
-OBJ       = Objects/MingW/metapad.o Objects/MingW/cencode.o Objects/MingW/cdecode.o Objects/MingW/metapad_private.res
+OBJ       = out/metapad.o out/cencode.o out/cdecode.o out/metapad_private.res
 
-LINKOBJ   = "Objects/MingW/metapad.o" Objects/MingW/cencode.o Objects/MingW/cdecode.o Objects/MingW/metapad_private.res
+LINKOBJ   = out/metapad.o out/cencode.o out/cdecode.o out/metapad_private.res
 
 LIBS      = -lcomctl32 -lkernel32 -luser32 -lgdi32 -lcomdlg32 -ladvapi32 -lshell32 -mwindows
 
-INCS      = 
+INCS      =
 
-CXXINCS   = 
+CXXINCS   =
 
-RCINCS    = 
+RCINCS    =
 
-BIN       = Output/MingW/metapad.exe
+BIN       = out/metapad.exe
 
 #DEFINES   = -D__GNUWIN32__ -D_DEBUG -D_MBCS -DNO_RICH_EDIT -DWIN32 -D_WINDOWS
 
 DEFINES   = -D__GNUWIN32__  -DNDEBUG -D_MBCS -DWIN32 -D_WINDOWS
 
-CXXFLAGS  = $(CXXINCS) $(DEFINES) -W /Od /FD -c  
+CXXFLAGS  = $(CXXINCS) $(DEFINES) -W /Od /FD -c
 
-#CFLAGS    = $(INCS) $(DEFINES) -W /Od /FD -c  
+#CFLAGS    = $(INCS) $(DEFINES) -W /Od /FD -c
 
 CFLAGS    = $(INCS) $(DEFINES)  -c
 
@@ -58,18 +58,18 @@ $(BIN): $(OBJ)
 
 	$(LINK) $(LINKOBJ) -o "$(BIN)" $(LIBS)
 
-Objects/MingW/metapad.o: $(GLOBALDEPS) metapad.c resource.h w32crt.h
+out/metapad.o: $(GLOBALDEPS) metapad.c resource.h w32crt.h
 
-	$(CC) -c metapad.c -o Objects/MingW/metapad.o $(CFLAGS)
+	$(CC) -c metapad.c -o out/metapad.o $(CFLAGS)
 
-Objects/MingW/cdecode.o: $(GLOBALDEPS) cdecode.c resource.h w32crt.h
+out/cdecode.o: $(GLOBALDEPS) cdecode.c resource.h w32crt.h
 
-	$(CC) -c cdecode.c -o Objects/MingW/cdecode.o $(CFLAGS)
+	$(CC) -c cdecode.c -o out/cdecode.o $(CFLAGS)
 
-Objects/MingW/cencode.o: $(GLOBALDEPS) cencode.c resource.h w32crt.h
+out/cencode.o: $(GLOBALDEPS) cencode.c resource.h w32crt.h
 
-	$(CC) -c cencode.c -o Objects/MingW/cencode.o $(CFLAGS)
+	$(CC) -c cencode.c -o out/cencode.o $(CFLAGS)
 
-Objects/MingW/metapad_private.res: metapad.rc 
+out/metapad_private.res: metapad.rc
 
-	$(WINDRES) --input-format=rc -o Objects/MingW/metapad_private.res $(RCINCS) metapad.rc -O coff
+	$(WINDRES) --input-format=rc -o out/metapad_private.res $(RCINCS) metapad.rc -O coff
